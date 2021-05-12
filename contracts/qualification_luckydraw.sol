@@ -136,7 +136,7 @@ contract QLF_LUCKYDRAW is IQLF {
     }
 
     function isLucky(address account) public view returns (bool) {
-        if (whilte_list[account] || lucky_factor == 0) {
+        if (lucky_factor == 0) {
             return true;
         }
         uint256 blocknumber = block.number;
