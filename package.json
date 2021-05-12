@@ -1,10 +1,29 @@
 {
   "name": "qualification",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "hardhat.config.ts",
   "scripts": {
-    "test": "hardhat test"
+    "test:hardhat": "hardhat test --network hardhat",
+    "test:ropsten": "hardhat test --network ropsten",
+    "deploy:localhost": "hardhat --network localhost deploy",
+    "deploy:ropsten": "hardhat --network ropsten deploy",
+    "deploy:bsc_test": "hardhat --network bsc_test deploy",
+    "deploy:bsc_mainnet": "hardhat --network bsc_mainnet deploy",
+    "update_snapshot_list:ropsten": "hardhat --network ropsten update_snapshot_list",
+    "check_snapshot_list:ropsten": "hardhat --network ropsten check_snapshot_list",
+    "update_snapshot_list:localhost": "hardhat --network localhost update_snapshot_list",
+    "check_snapshot_list:localhost": "hardhat --network localhost check_snapshot_list",
+    "update_snapshot_list:mainnet": "hardhat --network mainnet update_snapshot_list",
+    "check_snapshot_list:mainnet": "hardhat --network mainnet check_snapshot_list",
+    "update_luckydraw_whitelist:ropsten": "hardhat --network ropsten update_luckydraw_whitelist",
+    "check_luckydraw_whitelist:ropsten": "hardhat --network ropsten check_luckydraw_whitelist",
+    "update_luckydraw_whitelist:localhost": "hardhat --network localhost update_luckydraw_whitelist",
+    "check_luckydraw_whitelist:localhost": "hardhat --network localhost check_luckydraw_whitelist",
+    "update_luckydraw_whitelist:mainnet": "hardhat --network mainnet update_luckydraw_whitelist",
+    "check_luckydraw_whitelist:mainnet": "hardhat --network mainnet check_luckydraw_whitelist",
+    "compile": "hardhat compile",
+    "format": "prettier --write './test/*.js'"
   },
   "repository": {
     "type": "git",
@@ -18,5 +37,23 @@
   "homepage": "https://github.com/DimensionDev/qualification#readme",
   "dependencies": {
     "@openzeppelin/contracts": "^4.1.0"
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.2",
+    "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "chai": "^4.3.4",
+    "chai-as-promised": "^7.1.1",
+    "dotenv": "^9.0.0",
+    "ethereum-waffle": "^3.3.0",
+    "ethers": "^5.1.4",
+    "hardhat": "^2.2.1",
+    "hardhat-deploy": "^0.7.5",
+    "hardhat-deploy-ethers": "^0.3.0-beta.7",
+    "mocha": "^7.2.0",
+    "prettier": "^2.2.1",
+    "solhint": "^3.3.4",
+    "solidity-coverage": "^0.7.16",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
   }
 }
