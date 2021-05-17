@@ -3,7 +3,7 @@
 /**
  * @author          Yisi Liu
  * @contact         yisiliu@gmail.com
- * @author_time     01/06/2021
+ * @author_time     17/May/2021
 **/
 
 pragma solidity >= 0.8.0;
@@ -12,26 +12,38 @@ import "./IQLF.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract QLF_LUCKYDRAW is IQLF {
-
+    // qualification smart contract name
     string public name;
+
+    // when(block.timestamp) the smart contract is created
     uint256 public creation_time;
+
+    // qualification start time
+    // in this sample smart contract, it requires(start_time <= block.timestamp)
+    // set to 0 to disable this feature
     uint256 public start_time;
-    // in wei
+
+    // highest gas price in wei
+    // set a large number to disable this feature
     uint256 public max_gas_price;
-    uint256 public min_token_amount;
+
+    // the token address and minimum amount of tokens a user needs to hold to participate the ITO
+    // in this sample contract, this qualification factor can be bypassed by *whilte_list*
     address public token_addr;
-    // Chance to be selected as a lucky player
-    // 0 : 100%
-    // 1 : 75%
-    // 2 : 50%
-    // 3 : 25%
+    uint256 public min_token_amount;
+
+    // chance to be selected as a lucky user, 4 levels supported:
+    //      0 : 100%, actually, lucky draw feature disabled
+    //      1 : 75% chance
+    //      2 : 50% chance
+    //      3 : 25% chance
+    //      Others : 0%, do NOT use
     uint8 public lucky_factor;
-    address creator;
+
     mapping(address => bool) black_list;
     mapping(address => bool) whilte_list;
 
-    event GasPriceOver ();
-    event Unlucky ();
+    address creator;
 
     modifier creatorOnly {
         require(msg.sender == creator, "Not Authorized");
@@ -78,12 +90,20 @@ contract QLF_LUCKYDRAW is IQLF {
         token_addr = _token_addr;
     }
 
+    /**
+     * add_whitelist() add accounts into the white list
+     * addrs                   list of whitelisted addresses
+    **/
     function add_whitelist(address[] memory addrs) public creatorOnly {
         for (uint256 i = 0; i < addrs.length; i++) {
             whilte_list[addrs[i]] = true;
         }
     }
 
+    /**
+     * remove_whitelist() remove accounts from the white list
+     * addrs                   list of whitelisted addresses
+    **/
     function remove_whitelist(address[] memory addrs) public creatorOnly {
         for (uint256 i = 0; i < addrs.length; i++) {
             delete whilte_list[addrs[i]];
@@ -91,9 +111,8 @@ contract QLF_LUCKYDRAW is IQLF {
     }
 
     /**
-     * @dev
-     * add_blacklist() add account into black list
-     * addrs                   list of blacklisted accounts(addresses)
+     * add_blacklist() add accounts into the blacklist
+     * addrs                   list of blacklisted addresses
     **/
     function add_blacklist(address[] memory addrs) public creatorOnly {
         for (uint256 i = 0; i < addrs.length; i++) {
@@ -102,9 +121,8 @@ contract QLF_LUCKYDRAW is IQLF {
     }
 
     /**
-     * @dev
-     * remove_blacklist() remove account from black list
-     * addrs                   list of blacklisted accounts(addresses)
+     * remove_blacklist() remove accounts from the blacklist
+     * addrs                   list of blacklisted addresses
     **/
     function remove_blacklist(address[] memory addrs) public creatorOnly {
         for (uint256 i = 0; i < addrs.length; i++) {
@@ -112,13 +130,21 @@ contract QLF_LUCKYDRAW is IQLF {
         }
     }
 
+    /**
+     * logQualified() NOT used at the moment
+    **/
     function ifQualified(address account) public view override returns (bool qualified) {
         qualified = (whilte_list[account] || IERC20(token_addr).balanceOf(account) >= min_token_amount);
     } 
 
+    /**
+     * logQualified() Mask ITO main smart contract will call this function to check if an account is qualified for the ITO
+     * account                   address of the account
+     * ito_start_time            ITO start time
+     *                           In this sample smart contract, it requires(ito_start_time <= block.timestamp)
+    **/
     function logQualified(address account, uint256 ito_start_time) public override returns (bool qualified) {
         if (tx.gasprice > max_gas_price) {
-            emit GasPriceOver();
             revert("Gas price too high");
         }
         if (!whilte_list[account])
@@ -129,7 +155,6 @@ contract QLF_LUCKYDRAW is IQLF {
         }
         require(black_list[account] == false, "Blacklisted");
         if (isLucky(account) == false) {
-            emit Unlucky();
             emit Qualification(account, false, block.number, block.timestamp);
             revert("Not lucky enough");
         }
@@ -144,6 +169,10 @@ contract QLF_LUCKYDRAW is IQLF {
             interfaceId == this.isLucky.selector;
     }
 
+    /**
+     * isLucky() test if an account is lucky
+     * account                   address of the account
+    **/
     function isLucky(address account) public view returns (bool) {
         if (lucky_factor == 0) {
             return true;
