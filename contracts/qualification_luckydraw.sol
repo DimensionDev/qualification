@@ -13,9 +13,9 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract QLF_LUCKYDRAW is IQLF {
 
-    string private name;
-    uint256 private creation_time;
-    uint256 start_time;
+    string public name;
+    uint256 public creation_time;
+    uint256 public start_time;
     // in wei
     uint256 public max_gas_price;
     uint256 public min_token_amount;
@@ -52,14 +52,6 @@ contract QLF_LUCKYDRAW is IQLF {
         token_addr = _token_addr;
         lucky_factor = _lucky_factor;
         creator = msg.sender;
-    }
-
-    function get_name() public view returns (string memory) {
-        return name;
-    }
-
-    function get_creation_time() public view returns (uint256) {
-        return creation_time;
     }
 
     function get_start_time() public view returns (uint256) {
