@@ -1,5 +1,7 @@
 # Mask Network ITO qualification smart contract
 
+[中文版](./README_Chinese.md)
+
 ## Introduction
 
 `Initial Twitter Offering (ITO) qualification smart contract` is an important part of `Mask Network ITO main smart contract`([source code](https://github.com/DimensionDev/InitialTwitterOffering/blob/master/contracts/ito.sol)). In the ITO, `qualification smart contract` acts as a plugin, and it is used to check if a user is qualified to participate. This document gives a brief introduction of `qualification smart contract` and shows how to use it with an example. Please keep in mind that the smart contract sample code is just for demonstration. The example needs to be tailored to fulfill your own requirement.
@@ -58,5 +60,6 @@ lucky_factor = 0;
 Any contribution is welcomed to make it more secure and powerful. Had you any questions, please do not hesitate to create an issue to let us know.
 
 ## License
+
 InitialTwitterOffering is released under the [MIT LICENSE](LICENSE).
 
