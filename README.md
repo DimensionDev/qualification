@@ -6,7 +6,7 @@
 
 ## Overview
 
-Smart contract interface `IQLF` ([source code](https://github.com/DimensionDev/InitialTwitterOffering/blob/master/contracts/IQLF.sol)) is introduced to provide an API `logQualified()` that takes an address as input and returns a boolean indicating if the given address is qualified. If a user is not qualified, the `ITO main smart contract` will stop this user from participating an ITO(reverting a transaction). Customized `qualification contract` **SHOULD** implement contract `IQLF`. The deployed `qualification contract` address is required when a new ITO pool is created.
+Smart contract interface `IQLF` ([source code](https://github.com/DimensionDev/InitialTwitterOffering/blob/master/contracts/IQLF.sol)) is introduced to provide an API `logQualified()` that takes an address as input and returns a boolean indicating if the given address is qualified. If a user is not qualified, the `ITO main smart contract` will stop this user from participating an ITO(reverting a transaction). Customized `qualification contract` **SHOULD** implement contract `IQLF`. The deployed `qualification contract` address is required when a new ITO pool is created. Example: Ethereum mainnet [transaction](https://etherscan.io/tx/0xe27452456bdaa0e0dfdb099c5d8d94a15dd56d43568c80b479ad3018788783f8).
 
 `LuckyDraw qualification smart contract`([source code](https://github.com/DimensionDev/qualification/blob/master/contracts/qualification_luckydraw.sol)) is an `IQLF` implementation example. `LuckyDraw qualification smart contract` is able to validate a variety of parameters(can be customized) during an ITO smart contract transaction:
 - start time: the transaction will revert if `block.timestamp` is earlier than `start time`
@@ -31,6 +31,27 @@ token_addr = "0x69af81e73a73b40adf4f3d4223cd9b1ece623074";
 // 100% lucky, bypass lucky draw feature. Another approach is simply getting rid of the validation from the source code.
 lucky_factor = 0;
 ```
+## Contract Address
+
+### ITO Contract
+
+| Chain | Address |
+| ----- | ------- |
+| Mainnet | [0xf110fec3075d7531141b6bf16b11604cb028a17b](https://etherscan.io/address/0xf110fec3075d7531141b6bf16b11604cb028a17b) |
+| Ropsten | N/A |
+| Rinkeby | N/A |
+| Kovan | N/A |
+| Görli | N/A |
+
+### LuckyDraw Qualification Contract
+
+| Chain | Address |
+| ----- | ------- |
+| Mainnet | [0x3998599c011e226B36E88A46b6331e81A86540B1](https://etherscan.io/address/0x3998599c011e226B36E88A46b6331e81A86540B1) |
+| Ropsten | N/A |
+| Rinkeby | N/A |
+| Kovan | N/A |
+| Görli | N/A |
 
 ## Contribute
 
