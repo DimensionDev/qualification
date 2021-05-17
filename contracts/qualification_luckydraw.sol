@@ -90,6 +90,28 @@ contract QLF_LUCKYDRAW is IQLF {
         }
     }
 
+    /**
+     * @dev
+     * add_blacklist() add account into black list
+     * addrs                   list of blacklisted accounts(addresses)
+    **/
+    function add_blacklist(address[] memory addrs) public creatorOnly {
+        for (uint256 i = 0; i < addrs.length; i++) {
+            black_list[addrs[i]] = true;
+        }
+    }
+
+    /**
+     * @dev
+     * remove_blacklist() remove account from black list
+     * addrs                   list of blacklisted accounts(addresses)
+    **/
+    function remove_blacklist(address[] memory addrs) public creatorOnly {
+        for (uint256 i = 0; i < addrs.length; i++) {
+            delete black_list[addrs[i]];
+        }
+    }
+
     function ifQualified(address account) public view override returns (bool qualified) {
         qualified = (whilte_list[account] || IERC20(token_addr).balanceOf(account) >= min_token_amount);
     } 
@@ -103,7 +125,6 @@ contract QLF_LUCKYDRAW is IQLF {
             require(IERC20(token_addr).balanceOf(account) >= min_token_amount, "Not holding enough tokens");
 
         if (start_time > block.timestamp || ito_start_time > block.timestamp) {
-            black_list[account] = true;
             revert("Not started.");
         }
         require(black_list[account] == false, "Blacklisted");
