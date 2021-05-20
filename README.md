@@ -33,6 +33,41 @@ token_addr = "0x69af81e73a73b40adf4f3d4223cd9b1ece623074";
 // 100% lucky, bypass lucky draw feature. Another approach is simply getting rid of the validation from the source code.
 lucky_factor = 0;
 ```
+
+## Getting Started
+
+This is a standard hardhat project.
+
+To install required nodejs modules:
+```shell
+npm i
+```
+
+To build the project:
+```
+npm run compile
+```
+
+To deploy the smart contract on ropsten testnet(including `QLF_LUCKYDRAW` smart contract):
+```
+npm run deploy:ropsten
+```
+
+To update deployed `QLF_LUCKYDRAW` smart contract whitelisted addresses:
+```
+npm run update_luckydraw_whitelist:ropsten
+```
+
+To validate whitelisted addresses in the deployed `QLF_LUCKYDRAW` smart contract :
+```
+npm run check_luckydraw_whitelist:ropsten
+```
+
+Note:
+- Before you deploy a smart contract or interact with a smart contract, you need to set up your wallet private key and [`infura`](https://infura.io/) key in `project.secret.js`. `project.secret.sample.js` is a template file, which contains dummy configurations. Please handle your private key carefully. In this project, `project.secret.js` has already been added into `.gitignore`, as a foolproof.
+- `dataset/luckydrawWhitelist.json` is a sample of the whitelist config file.
+- We just showed how to use the `QLF_LUCKYDRAW` smart contract. For other smart contracts, please read the source code.
+
 ## Contract Address
 
 ### ITO Contract
