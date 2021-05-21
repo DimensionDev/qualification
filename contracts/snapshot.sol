@@ -1,26 +1,20 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >= 0.8.0;
 
-import "hardhat/console.sol";
+// import "hardhat/console.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract MaskTokenSnapshot {
-    address contract_creator;
-    uint256 block_height;
+contract QLF_SNAPSHOT is Ownable {
+    uint256 public block_height;
     mapping(address => uint256) balanceOf;
 
-    modifier CreatorOnly {
-        require(msg.sender == contract_creator, "Not Authorized");
-        _;
-    }
-
     constructor() {
-        contract_creator = msg.sender;
         block_height = 0;
     }
 
     function batch_set_balance(
         uint256 _block_height, address[] memory addrs, uint256[] memory balances
-    ) public CreatorOnly {
+    ) public onlyOwner {
         block_height = _block_height;
         for (uint256 i = 0; i < addrs.length; i++) {
             balanceOf[addrs[i]] = balances[i];

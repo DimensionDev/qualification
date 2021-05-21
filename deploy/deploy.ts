@@ -119,14 +119,29 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
             deploy_parameters.luckydraw.max_gas_price,
             ethers.utils.parseUnits(deploy_parameters.luckydraw.min_token_amount, deploy_parameters.token_decimal),
             deploy_parameters.token_address,
-            deploy_parameters.luckydraw.lucky_factor],
+            deploy_parameters.luckydraw.lucky_factor
+        ],
         log: true,
     },
     )
 
-    await deploy('MaskTokenSnapshot', {
+    await deploy('QLF_SNAPSHOT', {
         from: deployer,
         args: [],
+        log: true,
+    },
+    )
+
+    await deploy('QLF_DUMMY', {
+        from: deployer,
+        args: ['QLF_DUMMY', 0],
+        log: true,
+    },
+    )
+
+    await deploy('QLF_SNAPSHOT_WHITELIST', {
+        from: deployer,
+        args: ['QLF_SNAPSHOT_WHITELIST', 0],
         log: true,
     },
     )

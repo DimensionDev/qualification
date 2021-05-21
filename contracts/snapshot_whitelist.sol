@@ -11,53 +11,53 @@ pragma solidity >= 0.8.0;
 import "./IQLF.sol";
 import "./IMTS.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract QLF_HISTORY_POSITION_1000_MASK_ROPSTEN is IQLF {
+contract QLF_SNAPSHOT_WHITELIST is IQLF, Ownable {
     using SafeERC20 for IERC20;
 
-    string private name;
-    uint256 private creation_time;
-    uint256 start_time;
-    address creator;
+    string public name;
+    uint256 public creation_time;
+    uint256 public start_time;
+    address public snapshot_addr;
+    uint256 public min_token_amount;
     mapping(address => bool) black_list;
-
-    modifier creatorOnly {
-        require(msg.sender == creator, "Not Authorized");
-        _;
-    }
 
     constructor (string memory _name, uint256 _start_time) {
         name = _name;
         creation_time = block.timestamp;
         start_time = _start_time;
-        creator = msg.sender;
     }
 
     function get_name() public view returns (string memory) {
         return name;
     }
 
-    function get_creation_time() public view returns (uint256) {
-        return creation_time;
-    }
-
     function get_start_time() public view returns (uint256) {
         return start_time;
     }
 
-    function set_start_time(uint256 _start_time) public creatorOnly {
+    function set_snapshot_addr(address _address) public onlyOwner {
+        snapshot_addr = _address;
+    }
+
+    function set_start_time(uint256 _start_time) public onlyOwner {
         start_time = _start_time;
     }
 
+    function set_min_token_amount(uint256 _amount) public onlyOwner {
+        min_token_amount = _amount;
+    }
+
     function ifQualified(address account) public view override returns (bool qualified) {
-        if (IMTS(address(0x387C1417597eFd39fb61003E1e798b218eA5Be3B)).get_balance(account) < 1000) {
+        if (IMTS(address(snapshot_addr)).get_balance(account) < min_token_amount) {
             return false;
         }
         qualified = true;
     } 
 
     function logQualified(address account, uint256 ito_start_time) public override returns (bool qualified) {
-        if (IMTS(address(0x387C1417597eFd39fb61003E1e798b218eA5Be3B)).get_balance(account) < 1000) {
+        if (IMTS(address(snapshot_addr)).get_balance(account) < min_token_amount) {
             return false;
         }              
         if (start_time > block.timestamp || ito_start_time > block.timestamp) {

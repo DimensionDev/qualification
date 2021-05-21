@@ -1,17 +1,20 @@
 // SPDX-License-Identifier: MIT
 
 /**
- * @author          Yisi Liu
- * @contact         yisiliu@gmail.com
- * @author_time     17/May/2021
+ * @author          Andy Jiang
+ * @contact         andy@mask.io
+ * @author_time     01/06/2021
+ * @maintainer      Andy Jiang
+ * @maintain_time   01/06/2021
 **/
 
 pragma solidity >= 0.8.0;
 
 import "./IQLF.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract QLF_LUCKYDRAW is IQLF {
+contract QLF_LUCKYDRAW is IQLF, Ownable {
     // qualification smart contract name
     string public name;
 
@@ -43,13 +46,6 @@ contract QLF_LUCKYDRAW is IQLF {
     mapping(address => bool) black_list;
     mapping(address => bool) whilte_list;
 
-    address creator;
-
-    modifier creatorOnly {
-        require(msg.sender == creator, "Not Authorized");
-        _;
-    }
-
     constructor (string memory _name,
                 uint256 _start_time,
                 uint256 _max_gas_price,
@@ -63,30 +59,29 @@ contract QLF_LUCKYDRAW is IQLF {
         min_token_amount = _min_token_amount;
         token_addr = _token_addr;
         lucky_factor = _lucky_factor;
-        creator = msg.sender;
     }
 
     function get_start_time() public view returns (uint256) {
         return start_time;
     }
 
-    function set_start_time(uint256 _start_time) public creatorOnly {
+    function set_start_time(uint256 _start_time) public onlyOwner {
         start_time = _start_time;
     }
 
-    function set_max_gas_price(uint256 _max_gas_price) public creatorOnly {
+    function set_max_gas_price(uint256 _max_gas_price) public onlyOwner {
         max_gas_price = _max_gas_price;
     }
 
-    function set_min_token_amount(uint256 _min_token_amount) public creatorOnly {
+    function set_min_token_amount(uint256 _min_token_amount) public onlyOwner {
         min_token_amount = _min_token_amount;
     }
 
-    function set_lucky_factor(uint8 _lucky_factor) public creatorOnly {
+    function set_lucky_factor(uint8 _lucky_factor) public onlyOwner {
         lucky_factor = _lucky_factor;
     }
 
-    function set_token_addr(address _token_addr) public creatorOnly {
+    function set_token_addr(address _token_addr) public onlyOwner {
         token_addr = _token_addr;
     }
 
@@ -94,7 +89,7 @@ contract QLF_LUCKYDRAW is IQLF {
      * add_whitelist() add accounts into the white list
      * addrs                   list of whitelisted addresses
     **/
-    function add_whitelist(address[] memory addrs) public creatorOnly {
+    function add_whitelist(address[] calldata addrs) external onlyOwner {
         for (uint256 i = 0; i < addrs.length; i++) {
             whilte_list[addrs[i]] = true;
         }
@@ -104,7 +99,7 @@ contract QLF_LUCKYDRAW is IQLF {
      * remove_whitelist() remove accounts from the white list
      * addrs                   list of whitelisted addresses
     **/
-    function remove_whitelist(address[] memory addrs) public creatorOnly {
+    function remove_whitelist(address[] calldata addrs) external onlyOwner {
         for (uint256 i = 0; i < addrs.length; i++) {
             delete whilte_list[addrs[i]];
         }
@@ -114,7 +109,7 @@ contract QLF_LUCKYDRAW is IQLF {
      * add_blacklist() add accounts into the blacklist
      * addrs                   list of blacklisted addresses
     **/
-    function add_blacklist(address[] memory addrs) public creatorOnly {
+    function add_blacklist(address[] calldata addrs) external onlyOwner {
         for (uint256 i = 0; i < addrs.length; i++) {
             black_list[addrs[i]] = true;
         }
@@ -124,7 +119,7 @@ contract QLF_LUCKYDRAW is IQLF {
      * remove_blacklist() remove accounts from the blacklist
      * addrs                   list of blacklisted addresses
     **/
-    function remove_blacklist(address[] memory addrs) public creatorOnly {
+    function remove_blacklist(address[] calldata addrs) external onlyOwner {
         for (uint256 i = 0; i < addrs.length; i++) {
             delete black_list[addrs[i]];
         }

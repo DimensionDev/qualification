@@ -9,39 +9,25 @@
 pragma solidity >= 0.8.0;
 
 import "./IQLF.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract QLF is IQLF {
-    string private name;
-    uint256 private creation_time;
+contract QLF_DUMMY is IQLF, Ownable {
+    string public name;
+    uint256 public creation_time;
     uint256 start_time;
-    address creator;
     mapping(address => bool) black_list;
-
-    modifier creatorOnly {
-        require(msg.sender == creator, "Not Authorized");
-        _;
-    }
 
     constructor (string memory _name, uint256 _start_time) {
         name = _name;
         creation_time = block.timestamp;
         start_time = _start_time;
-        creator = msg.sender;
-    }
-
-    function get_name() public view returns (string memory) {
-        return name;
-    }
-
-    function get_creation_time() public view returns (uint256) {
-        return creation_time;
     }
 
     function get_start_time() public view returns (uint256) {
         return start_time;
     }
 
-    function set_start_time(uint256 _start_time) public creatorOnly {
+    function set_start_time(uint256 _start_time) public onlyOwner {
         start_time = _start_time;
     }
 
