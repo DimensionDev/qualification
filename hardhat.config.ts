@@ -72,6 +72,20 @@ const networks = {
           gasPrice: 5000000000,
           // blockGasLimit 8000000
      },
+     matic_mumbai_test: {
+          url: 'https://rpc-mumbai.maticvigil.com',
+          accounts: private_key_list,
+          chainId: 80001,
+          gasPrice: ethers.utils.parseUnits('10', 'gwei').toNumber(),
+          // blockGasLimit 8000000
+     },
+     matic_mainnet: {
+          url: 'https://rpc-mainnet.matic.network',
+          accounts: private_key_list,
+          chainId: 137,
+          gasPrice: ethers.utils.parseUnits('10', 'gwei').toNumber(),
+          // blockGasLimit 8000000
+     },
 };
 
 const test_network_parameters = {

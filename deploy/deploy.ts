@@ -76,6 +76,32 @@ const deploy_network_parameters = {
                 min_token_amount : "150",
             },
         },
+        matic_mumbai_test : {
+            // USDC smart contract addresss
+            token_address : "0xBD2094e633296909DDc7954Cf2f29e2f508112a2",
+            token_decimal : 6,
+            luckydraw: {
+                start_time : 0,
+                // 50% chance
+                lucky_factor : 2,
+                // 100K gwei, very high
+                max_gas_price : ethers.utils.parseUnits('100000', 'gwei'),
+                min_token_amount : "0",
+            },
+        },
+        matic_mainnet : {
+            // USDC smart contract addresss
+            token_address : "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+            token_decimal : 6,
+            luckydraw: {
+                start_time : 0,
+                // 50% chance
+                lucky_factor : 2,
+                // 100K gwei, very high
+                max_gas_price : ethers.utils.parseUnits('100000', 'gwei'),
+                min_token_amount : "0",
+            },
+        },
     },
 };
 let current_network : string;
