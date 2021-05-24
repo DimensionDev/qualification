@@ -41,6 +41,7 @@ contract QLF_LUCKYDRAW is IQLF, Ownable {
     //      2 : 50% chance
     //      3 : 25% chance
     //      Others : 0%, do NOT use
+    // TODO, improve it, 8 bits (0~255) -> (0% ~ 100%)
     uint8 public lucky_factor;
 
     mapping(address => bool) black_list;

@@ -164,6 +164,6 @@ async function init_deploy_network_parameters(hre) {
     throw 'no valid network found';
 }
 
-func.tags = ['MaskLuckyDraw']
+func.tags = ['MaskQualification']
 
 module.exports = func
