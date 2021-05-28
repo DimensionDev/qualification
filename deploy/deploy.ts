@@ -145,6 +145,21 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
         log: true,
     },
     )
+
+    await deploy('BalanceChecker', {
+        from: deployer,
+        args: [],
+        log: true,
+    },
+    )
+
+    await deploy('MaskToken', {
+        from: deployer,
+        // 1 billion
+        args: [ethers.utils.parseUnits('1000000000', 18)],
+        log: true,
+    },
+    )
 }
 
 async function init_deploy_network_parameters(hre) {
