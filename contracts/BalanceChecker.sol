@@ -1,17 +1,21 @@
+// SPDX-License-Identifier: MIT
 // Built off of https://github.com/DeltaBalances/DeltaBalances.github.io/blob/master/smart_contract/deltabalances.sol
-pragma solidity ^0.4.21;
+// pragma solidity ^0.4.21;
+pragma solidity >= 0.8.0;
 
 // ERC20 contract interface
-contract Token {
-  function balanceOf(address) public view returns (uint);
+abstract contract Token {
+  function balanceOf(address) virtual public view returns (uint);
 }
 
 contract BalanceChecker {
   /* Fallback function, don't accept any ETH */
-  function() public payable {
+  fallback() external payable {
     revert("BalanceChecker does not accept payments");
   }
-
+  receive() external payable {
+    revert("BalanceChecker does not accept payments");
+  }
   /*
     Check the token balance of a wallet in a token contract
 
@@ -23,9 +27,10 @@ contract BalanceChecker {
     // check if token is actually a contract
     uint256 tokenCode;
     assembly { tokenCode := extcodesize(token) } // contract code size
-  
+
     // is it a contract and does it implement balanceOf 
-    if (tokenCode > 0 && token.call(bytes4(0x70a08231), user)) {  
+    // if (tokenCode > 0 && token.call(bytes4(0x70a08231), user)) {  
+    if (tokenCode > 0) {  
       return Token(token).balanceOf(user);
     } else {
       return 0;
@@ -43,7 +48,7 @@ contract BalanceChecker {
     array is ordered by all of the 0th users token balances, then the 1th
     user, and so on.
   */
-  function balances(address[] users, address[] tokens) external view returns (uint[]) {
+  function balances(address[] calldata users, address[] calldata tokens) external view returns (uint[] memory) {
     uint[] memory addrBalances = new uint[](tokens.length * users.length);
     
     for(uint i = 0; i < users.length; i++) {
