@@ -160,6 +160,14 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
         log: true,
     },
     )
+
+    await deploy('Multicall', {
+        from: deployer,
+        args: [],
+        log: true,
+    },
+    )
+    
 }
 
 async function init_deploy_network_parameters(hre) {
