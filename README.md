@@ -1,12 +1,18 @@
-# Mask Network ITO qualification smart contract
+# Mask Network Miscellaneous Smart Contract
 
 [中文版](./README_Chinese.md)
 
 ## Introduction
 
+This repository contains miscellaneous smart contracts used(not necessarily developed) by Mask Network: `ITO qualification smart contracts`, `Mask ERC-20 token smart contract`, [BalanceChecker](https://github.com/wbobeirne/eth-balance-checker) and [Multicall](https://github.com/makerdao/multicall).
+
 `Initial Twitter Offering (ITO) qualification smart contract` is an important part of `Mask Network ITO main smart contract`([source code](https://github.com/DimensionDev/InitialTwitterOffering/blob/master/contracts/ito.sol)). In the ITO, `qualification smart contract` acts as a plugin, and it is used to check if a user is qualified to participate. This document gives a brief introduction of `qualification smart contract` and shows how to use it with an example. Please keep in mind that the smart contract sample code is just for demonstration. The example needs to be tailored to fulfill your own requirement.
 
-## Overview
+`Mask ERC20 token smart contract` is an ERC-20 compatible token smart contract. This test token smart contract includes `mint` functionality, which is convenient for developers.
+
+`BalanceChecker` and `Multicall` are open source smart contracts(MIT License).
+
+## `LuckyDraw qualification smart contract` Overview
 
 Smart contract interface `IQLF` ([source code](https://github.com/DimensionDev/InitialTwitterOffering/blob/master/contracts/IQLF.sol)) is introduced to provide an API `logQualified()` that takes an address as input and returns a boolean indicating if the given address is qualified. If a user is not qualified, the `ITO main smart contract` will stop this user from participating an ITO(reverting a transaction). Customized `qualification contract` **SHOULD** implement contract `IQLF`. The deployed `qualification contract` address is required when a new ITO pool is created. Example: Ethereum mainnet [transaction](https://etherscan.io/tx/0xe27452456bdaa0e0dfdb099c5d8d94a15dd56d43568c80b479ad3018788783f8).
 
@@ -48,6 +54,11 @@ To build the project:
 npm run compile
 ```
 
+To run unit test:
+```
+npm run test:hardhat
+```
+
 To deploy the smart contract on ropsten testnet(including `QLF_LUCKYDRAW` smart contract):
 ```
 npm run deploy:ropsten
@@ -64,31 +75,22 @@ npm run check_luckydraw_whitelist:ropsten
 ```
 
 Note:
-- Before you deploy a smart contract or interact with a smart contract, you need to set up your wallet private key and [`infura`](https://infura.io/) key in `project.secret.js`. `project.secret.sample.js` is a template file, which contains dummy configurations. Please handle your private key carefully. In this project, `project.secret.js` has already been added into `.gitignore`, as a foolproof.
+- Before you deploy a smart contract or interact with a smart contract, you need to set up your wallet private key and [`infura`](https://infura.io/) key in `project.secret.js`. `project.secret.sample.js` is a template, which contains dummy configurations. Please handle your private key carefully. In this project, `project.secret.js` has already been added into `.gitignore`, as a foolproof.
 - `dataset/luckydrawWhitelist.json` is a sample of the whitelist config file.
-- We just showed how to use the `QLF_LUCKYDRAW` smart contract. For other smart contracts, please read the source code.
+- We just briefly showed how to use the `QLF_LUCKYDRAW` smart contract. For other smart contracts, please read the source code. It is obvious that this project is far from perfect. We will try our best to improve this project.
 
-## Contract Address
+## Deployed Contract Address
 
-### ITO Contract
+| Contract | [Mainnet](https://etherscan.io/) | [Ropsten](https://ropsten.etherscan.io/) | [BSC](https://bscscan.com/) |[BSC-testnet](https://testnet.bscscan.com/) | [Matic](https://matic.network/) | [Matic-mumbai](https://explorer-mumbai.maticvigil.com/) |
+|---|---|---|---|---|---|---|
+| [MaskToken](contracts/MaskTestToken.sol) | N/A | [0x0f6d3eC1](https://ropsten.etherscan.io/address/0x0f6d3ec17ad4be4641fff47b98d970a2845c1365) | N/A | [0xC119574D](https://testnet.bscscan.com/address/0xC119574D5Fb333F5AC018658D4d8b5035E16bf39) | N/A | [0xC119574D](https://explorer-mumbai.maticvigil.com/address/0xC119574D5Fb333F5AC018658D4d8b5035E16bf39) |
+| [BalanceChecker](contracts/BalanceChecker.sol) | N/A | [0xD5C432dF](https://ropsten.etherscan.io/address/0xD5C432dFbDEcB6068583BC5241D1b308D70721a4) | N/A | [0x7f004a42](https://testnet.bscscan.com/address/0x7f004a42D760Eb68eB95Fa50f739917675181fCA) | N/A | [0xFEd05EE9](https://explorer-mumbai.maticvigil.com/address/0xFEd05EE9b7DdbAb97Abc55e27EF95C7c14688Aad) |
+| [Multicall](contracts/Multicall.sol) | N/A | [0x69F47251](https://ropsten.etherscan.io/address/0x69F47251bAa9Ee4568Aba01Bc7B61720ba6caCef) | N/A | [0x6cc1b105](https://testnet.bscscan.com/address/0x6cc1b1058F9153358278C35E0b2D382f1585854B) | N/A | [0x6B70EC65](https://explorer-mumbai.maticvigil.com/address/0x6B70EC653c4331bdD0D0DCC7C941eb594e69a91d) |
+| [QLF_LUCKYDRAW](contracts/luckydraw.sol) | N/A | [0xE7657599](https://ropsten.etherscan.io/address/0xE7657599B8323D50635FFaDA3a1302b3239c611b) | N/A | [0x2cB220F9](https://testnet.bscscan.com/address/0x2cB220F925E603A04BEE05F210252120deBA29d7) | N/A | [0x913975af](https://explorer-mumbai.maticvigil.com/address/0x913975af2Bb8a6Be4100D7dc5e9765B77F6A5d6c) |
+| [QLF_SNAPSHOT](contracts/snapshot.sol) | N/A | [0xBf950671](https://ropsten.etherscan.io/address/0xBf9506714bDAd0ecc968804D1a5f1FD0Be2C8044) | N/A | [0xBf950671](https://testnet.bscscan.com/address/0xBf9506714bDAd0ecc968804D1a5f1FD0Be2C8044) | N/A | [0x2B0f2083](https://explorer-mumbai.maticvigil.com/address/0x2B0f2083be3Cea0B75d97B4993f0A99cDE1A1e61) |
+| [QLF_DUMMY](contracts/dummy.sol) | N/A | [0x0061E06c](https://ropsten.etherscan.io/address/0x0061E06c9f640a03C4981f43762d2AE5e03873c5) | N/A | [0x0061E06c](https://testnet.bscscan.com/address/0x0061E06c9f640a03C4981f43762d2AE5e03873c5) | N/A | [0xe7a945e9](https://explorer-mumbai.maticvigil.com/address/0xe7a945e915E7c17f3263b03ac1bb84fb89410c3a) |
+| [QLF_SNAPSHOT_WHITELIST](contracts/snapshot_whitelist.sol) | N/A | [0xf4f26308](https://ropsten.etherscan.io/address/0xf4f26308Bd5bb11152F4b921ebE4C45441c69230) | N/A | [0xf4f26308](https://testnet.bscscan.com/address/0xf4f26308Bd5bb11152F4b921ebE4C45441c69230) | N/A | [0x9b3649eC](https://explorer-mumbai.maticvigil.com/address/0x9b3649eC8C9f68484acC76D437B145a4e58Bf2A2) |
 
-| Chain | Address |
-| ----- | ------- |
-| Mainnet | [0xf110fec3075d7531141b6bf16b11604cb028a17b](https://etherscan.io/address/0xf110fec3075d7531141b6bf16b11604cb028a17b) |
-| Ropsten | N/A |
-| Rinkeby | N/A |
-| Kovan | N/A |
-| Görli | N/A |
-
-### LuckyDraw Qualification Contract
-
-| Chain | Address |
-| ----- | ------- |
-| Mainnet | [0x3998599c011e226B36E88A46b6331e81A86540B1](https://etherscan.io/address/0x3998599c011e226B36E88A46b6331e81A86540B1) |
-| Ropsten | N/A |
-| Rinkeby | N/A |
-| Kovan | N/A |
-| Görli | N/A |
 
 ## Contribute
 
@@ -97,4 +99,3 @@ Any contribution is welcomed to make it more secure and powerful. Had you any qu
 ## License
 
 InitialTwitterOffering is released under the [MIT LICENSE](LICENSE).
-
