@@ -83,7 +83,7 @@ const networks = {
           url: 'https://rpc-mainnet.matic.network',
           accounts: private_key_list,
           chainId: 137,
-          gasPrice: ethers.utils.parseUnits('10', 'gwei').toNumber(),
+          gasPrice: ethers.utils.parseUnits('1', 'gwei').toNumber(),
           // blockGasLimit 8000000
      },
 };
