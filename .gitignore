@@ -4,7 +4,9 @@ coverage/
 coverage.json
 .coverage_artifacts
 .coverage_contracts
-
+.env
 #Hardhat files
 cache
 artifacts
+deployments
+project.secret.js
