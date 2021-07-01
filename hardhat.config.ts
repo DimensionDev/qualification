@@ -47,6 +47,14 @@ const networks = {
           gasPrice: ethers.utils.parseUnits('10', 'gwei').toNumber(),
           // blockGasLimit 8000000
      },
+     rinkeby: {
+          url: 'https://rinkeby.infura.io/v3/' + infura_project_id,
+          accounts: private_key_list,
+          chainId: 4,
+          // 10gwei make test faster
+          gasPrice: ethers.utils.parseUnits('10', 'gwei').toNumber(),
+          // blockGasLimit 8000000
+     },
      mainnet: {
           url: 'https://mainnet.infura.io/v3/' + infura_project_id,
           accounts: private_key_list,
